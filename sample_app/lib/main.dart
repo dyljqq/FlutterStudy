@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(SampleApp());
@@ -22,22 +23,60 @@ class SampleAppPage extends StatefulWidget {
   _SampleAppPageState createState() => _SampleAppPageState();
 }
 
+// class _SampleAppPageState extends State<SampleAppPage> {
+//   String textToShow = "I Like Flutter";
+//   void _updateText() {
+//     setState(() {
+//       textToShow = "Flutter is Awesome!";
+//     });
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Sample App"),
+//       ),
+//       body: Center(child: Text(textToShow)),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: _updateText,
+//         tooltip: 'Update Text',
+//         child: Icon(Icons.update),
+//       ),
+//     );
+//   }
+// }
+
 class _SampleAppPageState extends State<SampleAppPage> {
-  String textToShow = "I Like Flutter";
-  void _updateText() {
+  bool toggle = true;
+
+  void _toggle() {
     setState(() {
-      textToShow = "Flutter is Awesome!";
+      toggle = !toggle;
     });
   }
+
+  _getToggleChild() {
+    if (toggle) {
+      return Text('Toggle One');
+    } else {
+      return CupertinoButton(
+        onPressed: () {},
+        child: Text('Toggle Two'),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Sample App"),
       ),
-      body: Center(child: Text(textToShow)),
+      body: Center(
+        child: _getToggleChild(),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _updateText,
+        onPressed: _toggle,
         tooltip: 'Update Text',
         child: Icon(Icons.update),
       ),
