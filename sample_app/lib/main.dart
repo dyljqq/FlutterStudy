@@ -11,17 +11,17 @@ class SampleApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SampleAppPage(),
+      home: MyFadeTest(title: 'Fade Demo'),
     );
   }
 }
 
-class SampleAppPage extends StatefulWidget {
-  SampleAppPage({Key key}) : super(key: key);
+// class SampleAppPage extends StatefulWidget {
+//   SampleAppPage({Key key}) : super(key: key);
 
-  @override
-  _SampleAppPageState createState() => _SampleAppPageState();
-}
+//   @override
+//   _SampleAppPageState createState() => _SampleAppPageState();
+// }
 
 // class _SampleAppPageState extends State<SampleAppPage> {
 //   String textToShow = "I Like Flutter";
@@ -46,40 +46,92 @@ class SampleAppPage extends StatefulWidget {
 //   }
 // }
 
-class _SampleAppPageState extends State<SampleAppPage> {
-  bool toggle = true;
+// class _SampleAppPageState extends State<SampleAppPage> {
+//   bool toggle = true;
 
-  void _toggle() {
-    setState(() {
-      toggle = !toggle;
-    });
-  }
+//   void _toggle() {
+//     setState(() {
+//       toggle = !toggle;
+//     });
+//   }
 
-  _getToggleChild() {
-    if (toggle) {
-      return Text('Toggle One');
-    } else {
-      return CupertinoButton(
-        onPressed: () {},
-        child: Text('Toggle Two'),
-      );
-    }
+//   _getToggleChild() {
+//     if (toggle) {
+//       return Text('Toggle One');
+//     } else {
+//       return CupertinoButton(
+//         onPressed: () {},
+//         child: Text('Toggle Two'),
+//       );
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Sample App"),
+//       ),
+//       body: Center(
+//         child: _getToggleChild(),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: _toggle,
+//         tooltip: 'Update Text',
+//         child: Icon(Icons.update),
+//       ),
+//     );
+//   }
+// }
+
+class MyFadeTest extends StatefulWidget {
+  MyFadeTest({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyFadeTest createState() => _MyFadeTest();
+}
+
+class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
+  AnimationController controller;
+  CurvedAnimation curve;
+
+  @override
+  void initState() {
+    controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
+    curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sample App"),
+        title: Text(widget.title),
       ),
       body: Center(
-        child: _getToggleChild(),
+        child: Container(
+          child: FadeTransition(
+            opacity: curve,
+            child: FlutterLogo(
+              size: 100.0,
+            )
+          )
+        )
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _toggle,
-        tooltip: 'Update Text',
-        child: Icon(Icons.update),
+        tooltip: 'Fade',
+        child: Icon(Icons.brush),
+        onPressed: () {
+          controller.forward();
+        },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
