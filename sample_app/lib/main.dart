@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(SampleApp());
 
@@ -11,7 +13,7 @@ class SampleApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CustomButton("Hello"),
+      home: SampleAppPage(),
     );
   }
 }
@@ -182,16 +184,62 @@ class SampleApp extends StatelessWidget {
 //   }
 // }
 
-class CustomButton extends StatelessWidget {
-  final String label;
+// class CustomButton extends StatelessWidget {
+//   final String label;
 
-  CustomButton(this.label);
+//   CustomButton(this.label);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return RaisedButton(
+//       onPressed: (){},
+//       child: Text(label),
+//     );
+//   }
+// }
+
+class SampleAppPage extends StatefulWidget {
+  SampleAppPage({Key key}) : super(key: key);
+
+  @override
+  _SampleAppPageState createState() => _SampleAppPageState();
+}
+
+class _SampleAppPageState extends State<SampleAppPage> {
+  List widgets = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: (){},
-      child: Text(label),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sample App"),
+      ),
+      body: ListView.builder(
+          itemCount: widgets.length,
+          itemBuilder: (BuildContext context, int position) {
+            return getRow(position);
+          }));
+  }
+
+  Widget getRow(int i) {
+    return Padding(
+      padding: EdgeInsets.all(10.0),
+      child: Text("Row ${widgets[i]["title"]}")
     );
+  }
+
+  loadData() async {
+    String dataURL = "https://jsonplaceholder.typicode.com/posts";
+    http.Response response = await http.get(dataURL);
+    setState(() {
+      widgets = json.decode(response.body);
+    });
   }
 }
