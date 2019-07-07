@@ -11,7 +11,7 @@ class SampleApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Signature(),
+      home: CustomButton("Hello"),
     );
   }
 }
@@ -181,3 +181,17 @@ class SampleApp extends StatelessWidget {
 //     );
 //   }
 // }
+
+class CustomButton extends StatelessWidget {
+  final String label;
+
+  CustomButton(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: (){},
+      child: Text(label),
+    );
+  }
+}
