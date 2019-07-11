@@ -65,7 +65,7 @@ class MyScaffold extends StatelessWidget {
             ),
             Expanded(
               child: Center(
-                child: MyButton(),
+                child: Counter(),
               ),
             )
           ],
@@ -95,6 +95,35 @@ class MyButton extends StatelessWidget {
           child: Text('Engage'),
         ),
       ),
+    );
+  }
+
+}
+
+class Counter extends StatefulWidget {
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _counter = 0;
+
+  void _increment() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        RaisedButton(
+          onPressed: _increment,
+          child: Text('Increment'),
+        ),
+        Text('Count: $_counter')
+      ],
     );
   }
 
